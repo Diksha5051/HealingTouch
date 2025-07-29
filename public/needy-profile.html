@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <style>
+    body {
+      background-color: snow;
+    }
+  </style>
+
+  <script>
+    function doPrev(refFile, prevImg) {
+      const [file] = refFile.files
+      if (file) {
+        prevImg.src = URL.createObjectURL(file);
+
+         // Set the value of the hidden input to the file name
+    document.getElementById("adharPicName").value = file.name;
+    console.log('File name set:', file.name); // Debug log to confirm the file name
+      }
+    }
+    //***********************************************btn-search**********************************************
+    $(document).ready(function () {
+      $("#btnFetch").click(
+        function () {
+          // alert("tum");
+          var emailKu = $("#inputEmail").val();
+          var obj = {
+            type: "get",
+            url: "/do-fetch",
+            data: {
+              kuchEmail: emailKu
+            }
+
+          }
+          $.ajax(obj).done(function (respJSONKuch) {
+           alert(JSON.stringify(respJSONKuch));
+            //alert(respJSONKuch);
+            // $("#res").html(respJSONKuch);
+            if (respJSONKuch.length == 1) {
+              
+              $("#inputName").val(respJSONKuch[0].name);
+              $("#inputNum").val(respJSONKuch[0].phoneno);
+              $("#inputAddress").val(respJSONKuch[0].address);
+              $("#inputDob").val(respJSONKuch[0].dob);
+              $("#inputGender").val(respJSONKuch[0].gender);
+              $("#inputCity").val(respJSONKuch[0].city);
+
+              $("#imgPrev").prop("src", "uploads/" + respJSONKuch[0].picname);
+              $("#adharPicName").val(respJSONKuch[0].picname);
+              console.log('Image name set:', respJSONKuch[0].picname);  // Debug log
+
+
+              //$("#hdn").val(respJSONKuch[0].picname); 
+
+              /*   $("#needyupdate").attr("disabled",false);
+                       $("#done").html("Update").attr("formaction","/profile-needyupdate");*/
+
+              // }
+
+              $("#needyupdate").attr("disabled", false);
+              //  $("#done").html("Update").attr("formaction","/profile-needyupdate");
+            }
+            else {
+              $("#needysubmit").attr("disabled", false);
+              //  $("#done").html("Save").attr("formaction","/profile-needysubmit");
+
+            }
+
+          }).fail(function (errKuch) {
+            alert(errKuch);
+          })
+        });
+
+
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function setActiveUser()
+    {
+      var au=localStorage.getItem("activeKuch");
+      // alert(au);
+      $("#inputEmail").val(au).prop("readonly",true);
+    }
+    setActiveUser();
+
+
+
+
+
+
+
+    });
+
+
+  </script>
+
+</head>
+
+<body>
+  <nav class="navbar" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">
+      <img src="uploads/healing-touch.jpg" alt="Logo" width="60" height="40" class="d-inline-block align-text-top">
+      Healing Touch
+    </a>
+   
+  </nav>
+  <center>
+  <h1> Needy Details</h1>
+  </center>
+  <br><br>
+  <div class="container">
+    <form class="row g-3" method="post" enctype="multipart/form-data">
+      <div class="col-md-8">
+        <label for="inputEmail" class="form-label">Email Id</label>
+        <input type="email" class="form-control" id="inputEmail" name="inputEmail" required>
+      </div>
+      <div class="row">
+        <div class="col">
+
+          <input type="button" class="btn btn-primary mt-2" id="btnFetch" value="Search">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="inputName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="inputName" name="inputName" required> 
+      </div>
+      <div class="col-md-6">
+        <label for="inputNum" class="form-label">Mobile Number</label>
+        <input type="text" class="form-control" id="inputNum" name="inputNum" required>
+      </div>
+      <div class="col-12">
+        <label for="inputAddress" class="form-label">Address</label>
+        <input type="text" class="form-control" id="inputAddress" name="inputAddress" required>
+      </div>
+      <div class="col-md-4">
+        <label for="inputDob" class="form-label">DOB</label>
+        <input type="date" class="form-control" id="inputDob" name="inputDob" required>
+      </div>
+      <div class="col-md-4">
+        <label for="inputGender" class="form-label">Gender</label>
+        <select class="form-control" name="inputGender" id="inputGender" required>
+          <optgroup label="select gender"></optgroup>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+
+        </select>
+      </div>
+
+      <div class="col-md-8">
+        <label for="inputCity" class="form-label">City</label>
+        <br>
+        <select class="form-control" name="inputCity" id="inputCity" required>
+          <option selected disabled hidden>Choose
+            State or
+            Territories </option>
+          <option value="Andhra Pradesh">Andhra Pradesh</option>
+          <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+          <option value="Assam">Assam</option>
+          <option value="Bihar">Bihar</option>
+          <option value="Chhattisgarh">Chhattisgarh</option>
+          <option value="Goa">Goa</option>
+          <option value="Gujarat">Gujarat</option>
+          <option value="Haryana">Haryana</option>
+          <option value="Himachal Pradesh">Himachal Pradesh</option>
+          <option value="Jharkhand">Jharkhand</option>
+          <option value="Karnataka">Karnataka</option>
+          <option value="Kerala">Kerala</option>
+          <option value="Madhya Pradesh">Madhya Pradesh</option>
+          <option value="Maharashtra">Maharashtra</option>
+          <option value="Manipur">Manipur</option>
+          <option value="Meghalaya">Meghalaya</option>
+          <option value="Mizoram">Mizoram</option>
+          <option value="Nagaland">Nagaland</option>
+          <option value="Odisha">Odisha</option>
+          <option value="Punjab">Punjab</option>
+          <option value="Rajasthan">Rajasthan</option>
+          <option value="Sikkim">Sikkim</option>
+          <option value="Tamil Nadu">Tamil Nadu</option>
+          <option value="Telangana">Telangana</option>
+          <option value="Tripura">Tripura</option>
+          <option value="Uttar Pradesh">Uttar Pradesh</option>
+          <option value="Uttarakhand">Uttarakhand</option>
+          <option value="West Bengal">West Bengal</option>
+          <option value="Andaman and Nicobar Islands">Andaman and Nicobar
+            Islands</option>
+          <option value="Chandigarh">Chandigarh</option>
+          <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and
+            Nagar Haveli and Daman and Diu</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Ladakh">Ladakh</option>
+          <option value="Lakshadweep">Lakshadweep</option>
+          <option value="Puducherry">Puducherry</option>
+          <option value="Lakshadweep">Lakshadweep</option>
+
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label for="formGroupExampleInput" class="form-label">Upload Aadhar Card pic</label><br>
+        <input type="file" onchange="doPrev(this, imgPrev)" name="ppic" accept="image/*" required>
+        <!-- Hidden input to store the file name -->
+        <input type="hidden" id="adharPicName" name="adharPicName">
+      </div>
+      
+      <div class="col-md-5">
+        <img src id="imgPrev" alt width="100" height="100">
+      </div>
+
+      <div class="row">
+        <span id="sign">*</span>
+      </div>
+      <div class="col-12">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="gridCheck" required>
+          <label class="form-check-label" for="gridCheck">
+            Check me out
+          </label>
+        </div>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-danger" formaction="/profile-needysubmit" id="needysubmit" disabled>Send to
+          server</button>
+        <button type="submit" class="btn btn-primary" formaction="/profile-needyupdate" id="needyupdate"
+          disabled>Update</button>
+        
+      </div>
+    </form>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

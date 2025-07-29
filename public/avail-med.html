@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<style>
+    body{
+        background-color:darkkhaki;
+    }
+</style>
+<script>
+ //*********************************avail-medicine***************************************************
+$(document).ready(function () {
+      $("#btn-avail").click(function () {
+       //  alert("yum");
+        var emailku = $("#txtEmail").val();
+        var med = $("#txtMedicine").val();
+        var expiry = $("#txtExpiry").val();
+        var quantity = $("#txtQty").val();
+        var packing = $("#txtPacking").val();
+       
+        //alert("yum");
+        var obj = {
+          type: "get",
+          url: "/availmed-submit",
+          data: {
+            kuchemail: emailku,
+            kuchmed: med,
+            kuchexpiry: expiry,
+            kuchquantity: quantity,
+            kuchpacking: packing,
+          }
+        }
+
+        // alert("yum");
+        $.ajax(obj).done(function (respkuch) {
+           alert(respkuch);
+        
+         // $("#sign").html(respkuch);
+        }).fail(function (errkuch) {
+          alert(errkuch);
+         // $("#sign").html(errkuch);
+        })
+
+      });
+
+      //*************************
+      function setActiveUser()
+    {
+      var au=localStorage.getItem("activeKuch");
+      // alert(au);
+      $("#txtEmail").val(au).prop("readonly",true);
+    }
+    setActiveUser();
+
+    });
+
+
+
+
+</script>
+
+        
+</head>
+
+<body>
+    <nav class="navbar" style="background-color: #e3f2fd; ">
+    
+            <h1 style="margin:auto"> Avail Medicine</h1>
+        
+    </nav>
+    <div class="container text-center">
+        <form class="row g-9">
+            <div class="col-md-12">
+                <label for="txtEmail" class="form-label">Email</label>
+                <input type="email" class="form-control" id="txtEmail">
+            </div>
+           
+            <div class="col-md-6">
+                <label for="txtMedicine" class="form-label">Medicine Name</label>
+                <input type="text" class="form-control" id="txtMedicine" >
+            </div>
+            <div class="col-md-6">
+                <label for="txtExpiry" class="form-label">Expiry Date</label>
+                <input type="date" class="form-control" id="txtExpiry" >
+            </div>
+            <div class="col-md-5">
+                <label for="txtQty" class="form-label">Quantity</label>
+                <select class="form-select" id="txtQty">
+                    <option selected>Choose...</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    </select>
+            </div>
+            <div class="col-md-7">
+                <label for="txtPacking" class="form-label">Packing</label>
+                <select id="txtPacking" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>Vials</option>
+                    <option>Ampoules</option>
+                    <option>Blister packs</option>
+                    <option>Sterile Packaging</option>
+                    <option>Sachet Packaging</option>
+                    <option>Metals</option>
+                    <option>Bottles</option>
+                    <option>Glass Bottles</option>
+                    <option>Plastic Bottles</option>
+                    
+                </select>
+            </div>
+           
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary" id="btn-avail">Avail Med.</button>
+            </div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

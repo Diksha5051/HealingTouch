@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="script/angular.min.js"></script>
+    <script>
+        var module=angular.module("myModule",[]);
+        module.controller("myController",function($scope){
+            $scope.java="";
+            $scope.dsa="";
+            $scope.cpp="";
+            $scope.dosum=function()
+            {
+                alert("hell");
+              $scope.sum=$scope.java/1+$scope.dsa/1+$scope.cpp/1;
+           //  $scope.sum=parseFloat($scope.java)+parseFloat($scope.dsa)+parseFloat($scope.cpp);
+
+            }
+            $scope.doper=function()
+            {
+                $scope.per=($scope.sum)/300*100;
+            }
+            $scope.dores=function(){
+                if($scope.per>=70){
+                    $scope.res="pass";
+                }
+                else
+                $scope.res="fail";
+            }
+           
+
+        })
+    </script>
+    <style>
+        body{
+            background-color: navajowhite;
+        }
+    </style>
+</head>
+<body ng-app="myModule" ng-controller="myController">
+  <div class="container">
+      <h2>Marks Card</h2>
+    <div class="row">
+        <label for="form-control"> <h4>Java Marks</h4></label>
+        <div class="col-sm-5">
+    
+      <input type="text" class="form-control" ng-model="java">
+</div>
+      </div>
+      <div class="row">
+      <h4>DSA Marks</h4>
+
+        <div class="col-sm-5">
+     
+      <input type="text" class="form-control" ng-model="dsa">
+      </div>
+      </div>
+      <div class="row">
+        <h4>CPP Marks</h4>
+        <div class="col-sm-5">
+      
+      <input type="text"  class="form-control"ng-model="cpp"><br>
+      </div>
+      </div>
+      <div class="row-sm-3">
+        <div class="col-sm-3">
+      <input type="button" class="form-control" value="Total" ng-click="dosum()"><br><br>
+      
+      <input type="button" class="form-control" value="Percentage" ng-click="doper()"><br><br>
+      <input type="button"  class="form-control" value="Result" ng-click="dores()"><br><br>
+      </div>
+      </div>
+      <p>
+          Total={{sum}}
+      </p>
+      <p>
+        Percentage={{per}}
+    </p>
+    <p>
+        Result={{res}}
+    </p>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+  crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <script src="script/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script>
+    var module = angular.module("myModule", []);
+    module.controller("myController", function ($scope, $http) {
+    //    setActiveUser();
+    // function setActiveUser() {
+    //  var au=localStorage.getItem("activeKuch");
+    //  $("txtemail").val(au).prop("readonly",true);
+    //}
+     
+
+
+      //********************fetch-avail-medicine-record***********************************
+
+
+      $scope.jsonobj;
+      $scope.email = " ";
+
+      $scope.fetchdata = function (email) {
+        var url = "/get-angular-data?emailid=" + email;
+        $http.get(url).then(done, fail);
+        function done(response) {
+          alert(JSON.stringify(response.data));
+          $scope.jsonobj = response.data;
+        }
+        function fail(response) {
+          alert(response.data);
+        }
+
+      }
+      //**************************delete unavail button************************************************
+      $scope.dounavail=function(srno){
+    if(confirm("R U Sure?")==false)
+    return;
+    var url="/get-unavail?serialno="+srno;
+    $http.get(url).then(done,fail);
+    function done(response)
+    {
+        alert(response.data);
+        $scope.fetchdata();
+       
+    }
+    function fail(response)
+    {
+        alert(response.data);
+    }
+}
+//************************************************************************************************************
+$scope.setActiveUser = function () {
+                if (localStorage.getItem("activeKuch") == undefined) {
+                    location.href = "index.html";
+                    return;
+                }
+
+                var au = localStorage.getItem("activeKuch");
+                $scope.email = au;
+                $("#txtemail").val(au).prop("readonly", true);
+
+                $("#txtemail").html(au);
+                // alert(au);
+            }
+
+            $scope.setActiveUser();
+
+  
+    })
+  </script>
+  
+  
+ 
+</head>
+
+<body ng-app="myModule" ng-controller="myController" ng-model="email" ng-init="setActiveUser();">
+  <nav class="navbar" style="background-color: #e3f2fd;">
+  <h1 style="margin:auto">Medicine Manager</h1>
+  </nav>
+  <br><br><br>
+<hr><hr>
+  <hr>
+  <form class=" md-7 row g-3">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+    <div class="col-auto">
+  <label for="txtemail" class="form-label"> Email: </label>
+ </div>
+ <div class="col-auto">
+  <input ng-model="email"  class="form-control" id="txtemail"  >
+
+</div>
+<div class="col-auto">
+  <input type="button" class="btn btn-primary mb-3" ng-click="fetchdata(email);"  value="fetchRecords">
+  </div>
+  </form>
+  <br><br>
+  <table class="table table-dark table-hover" width="800">
+    <tr>
+      <th>Sr.No</th>
+      <th>medicine name</th>
+      <th>quantity</th>
+      <th>expiry date</th>
+      <th>packing</th>
+      <th>Operations</th>
+    <tr ng-repeat="obj in jsonobj">
+      <td>{{$index+1}}</td>
+      <td>{{obj.med}}</td>
+      <td>{{obj.qty}}</td>
+      <td>{{obj.expdate}}</td>
+      <td>{{obj.packing}}</td>
+
+      <td align="center">
+        <input type="button" value="unavail" ng-click="dounavail(obj.srno);">
+       
+      </td>
+    </tr>
+    </tr>
+
+  </table>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bootstrap demo</title>
+  <script src="script/angular.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script>
+    var module = angular.module("myModule", []);
+    module.controller("myController", function ($scope, $http) {
+
+      //*************************fetch cities*****************************
+      $scope.jsonArray;
+
+
+      $scope.fetchcities = function () {
+        var url = "/get-donor-fetchcities";
+
+        $http.get(url).then(done, fail);
+        function done(response) {
+          //alert(JSON.stringify(response.data));
+          $scope.jsonArray = response.data;
+
+        }
+        function fail(response) {
+          alert(response.data);
+        }
+      }
+
+      $scope.jsonArrayyy;
+
+      $scope.fetchmeds = function () {
+        var url = "/get-donor-fetchmeds";
+
+        $http.get(url).then(done, fail);
+        function done(response) {
+         // alert(JSON.stringify(response.data));
+          $scope.jsonArrayyy = response.data;
+
+        }
+        function fail(response) {
+          alert(response.data);
+        }
+      }
+
+      $scope.jsonArrayyy3;
+
+      $scope.fetchdetails = function () {
+        var url = "/get-donor-fetchdetails";
+
+        $http.get(url).then(done, fail);
+        function done(response) {
+         // alert(JSON.stringify(response.data));
+          $scope.jsonArrayyy3 = response.data;
+
+        }
+        function fail(response) {
+          alert(response.data);
+        }
+      }
+
+
+
+      //************************************sel city******************************
+      $scope.selcity = "";
+      $scope.doShowSelcity = function () {
+        alert($scope.selObj.city);
+        //AJAX Request
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      //********************************fetch donors********************************** 
+      selcity = " ";
+      selmed = " ";
+
+      $scope.jsonArrray;
+      $scope.fetchDonors = function () {
+        var url = "/fetch-donors?medKuch=" + $scope.selmed.med + "&cityKuch=" + $scope.selcity.city;
+        alert(url);
+        $http.get(url).then(done, fail);
+        function done(response) {
+         // alert(JSON.stringify(response.data));
+          $scope.JsonArrray = response.data;
+
+        }
+        function fail(response) {
+          alert(response.data);
+        }
+      }
+      //---------------
+      $scope.selOneObj;
+      $scope.doShowOne = function (selIndex) {
+        $scope.selOneObj = $scope.jsonArrayyy3[selIndex];
+      }
+
+
+
+    })
+
+
+  </script>
+  <style>
+    #city{
+      width:200px;
+    }
+    #list{
+      width:200px;
+    }
+  </style>
+</head>
+
+<body ng-app="myModule" ng-controller="myController" ng-init="fetchcities();fetchmeds();fetchdetails();">
+  <nav class="navbar" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" href="#">
+      <img src="uploads/healing-touch.jpg" alt="Logo" width="60" height="40" class="d-inline-block align-text-top">
+      Healing Touch
+    </a>
+  </nav>
+  <br><br><br>
+  <form class=" md-7 row g-4">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+    <div class="col-auto">
+      <label for="city" class="form-label"> Select City </label></div>
+      <div class="col-auto">
+  <select ng-options="obj.city for obj in jsonArray" id="city" class="form-control" ng-model="selcity" ng-change="doShowSelcity();">
+    <option value="">Select</option>
+  </select></div> &nbsp &nbsp &nbsp
+  <div class="col-auto">
+  <label for="list" class="form-label"> Select Med</label></div>
+  <div class="col-auto">
+  <select ng-options="obj.med for obj in jsonArrayyy" id="list" class="form-control" ng-model="selmed" ng-change="doShowSelmedlist();">
+    <option value="">Select</option>
+  </select></div>
+  </form>
+
+  &nbsp &nbsp &nbsp
+  <div class="col-md-4 mt-5"> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<input type="button" class="btn btn-outline-success" value="Get DONORS"
+      ng-click="fetchDonors();" style="width: 300px"></div><br><br><br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3" ng-repeat="obj in JsonArrray">
+        <div class="card">
+          <center><img src="uploads/finder" width="200" height="200"> 
+          <div class="card-body">
+            <h5 class="card-title">Donor name:{{obj.name}}</h5>
+            <h5 class="card-title">Contact:{{obj.phoneno}}</h5>
+          </center>
+          
+
+            <!-- Button trigger modal -->
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              ng-click="doShowOne($index);">
+              Details
+            </a>
+          </div>
+        </div>
+      </div>
+                
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">{{selOneObj.email}}</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="uploads/{{selOneObj.picname}}" width="100" height="100" alt="">
+          <h5>Proof:{{selOneObj.proof}}</h5>
+          <h5>Gender:{{selOneObj.gender}}</h5>
+          <h5>Address:{{selOneObj.address}}</h5>
+          <h5>City:{{selOneObj.city}}</h5>
+          <h5>Availability:{{selOneObj.avalfrom}} {{selOneObj.till}}</h5>
+          <h5>Contact:{{selOneObj.phoneno}}</h5>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

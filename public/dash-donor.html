@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <style>
+      body{
+          background-color:darkkhaki;
+      }
+  </style>
+  <script>
+  ////***********************************change password in settings***************************************************************
+  $(document).ready(function () {
+      $("#password-update").click(function () {
+        // alert("yum");
+        var emailku = $("#email").val();
+        var pwdo = $("#oldpassword").val();
+        var pwdn = $("#newpassword").val();
+        var pwdc = $("#confirmpassword").val();
+        //alert("yum");
+        var obj = {
+          type: "get",
+          url: "/chk-settings",
+          data: {
+            kuchemail: emailku,
+            kucholdpwd: pwdo,
+            kuchnewpwd: pwdn,
+            kuchcurrentpwd: pwdc,
+            
+          }
+        }
+
+        // alert("yum");
+        $.ajax(obj).done(function (respkuch) {
+          // alert(respkuch);
+          $("#pass").html(respkuch);
+        }).fail(function (errkuch) {
+          // alert(errkuch);
+          $("#pass").html(errkuch);
+        })
+
+      });
+      ///*******************************
+      var flag = false;
+      $(".ab").click(function () {
+        if (flag == true ) {
+          $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+          $("#oldpassword").prop("type", "password");
+          flag = false;
+        }
+        else {
+          $(this).addClass("fa-eye").removeClass("fa-eye-slash");
+          $("#oldpassword").prop("type", "text");
+          flag = true;
+        }
+
+
+      });
+      //********************************
+      var flag = false;
+      $(".cd").click(function () {
+        if (flag == true) {
+          $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+          $("#newpassword").prop("type", "password");
+          flag = false;
+        }
+        else {
+          $(this).addClass("fa-eye").removeClass("fa-eye-slash");
+          $("#newpassword").prop("type", "text");
+          flag = true;
+        }
+
+
+      });
+      //****************************
+      var flag = false;
+      $(".ef").click(function () {
+        if (flag == true) {
+          $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+          $("#confirmpassword").prop("type", "password");
+          flag = false;
+        }
+        else {
+          $(this).addClass("fa-eye").removeClass("fa-eye-slash");
+          $("#confirmpassword").prop("type", "text");
+          flag = true;
+        }
+
+
+      });
+      //*************************
+      function setActiveUser()
+    {
+      var au=localStorage.getItem("activeKuch");
+      // alert(au);
+      $("#spanWelcome").html(au);
+    
+    
+///***********************************************************
+      // alert(au);
+      $("#email").val(au).prop("readonly",true);
+    }
+    setActiveUser();
+
+
+
+
+    });
+
+
+  
+
+
+
+
+  
+  </script>
+  </head>
+  <body >
+    <nav class="navbar navbar-text " style="background-color: #e3f2fd;">
+      <a class="navbar-brand" href="#">
+        <img src="uploads/healing-touch.jpg" alt="Logo" width="60" height="40" class="d-inline-block align-text-top">
+        Healing Touch
+      </a>
+      
+      </nav>
+   <center>   <h1 >DONOR PAGE</h1></center>
+   <br><br><br><br>
+      
+    <h3> Welcome: <span id="spanWelcome">*</span></h3>
+      
+      <div class="container">
+      <div class="row row-cols-3 row-cols-md-4 g-4">
+        <div class="col">
+          <div class="card">
+            <img src="uploads/profiledonor.jpeg" height="350" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <a href="donor-profile.html" class="btn btn-primary" > Profile Form</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="uploads/medicineaval"  height="350"class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <a href="avail-med.html" class="btn btn-primary"> Avail Medicine</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="uploads/medicine-manage (2)" height="350" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <a href="med-manager.html" class="btn btn-primary"> Medicine Manager</a>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="uploads/setting" height="350" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Settings
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Settings</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          
+          <label for="exampleFormControlInput1" class="form-label">Email Id</label>
+          
+          <input type="email" class="form-control" id="email" >
+         
+
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label" >Old Password</label>
+          <div class="input-group ">
+          <input type="password" class="form-control" id="oldpassword" >
+          <i class="fa-solid fa-solid ab fa-eye-slash input-group-text " ></i>
+        </div>
+
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label" >New Password</label>
+          <div class="input-group ">
+          <input type="password" class="form-control" id="newpassword">
+          <i class="fa-solid fa-solid cd fa-eye-slash input-group-text " ></i>
+        </div>
+
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label" >Confirm Password</label>
+          <div class="input-group ">
+          <input type="password" class="form-control" id="confirmpassword" >
+          <i class="fa-solid fa-solid ef fa-eye-slash input-group-text " ></i>
+        </div>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="password-update">Update</button>
+        <span id="pass">*</span>
+      </div>
+    </div>
+  </div>
+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+  </body>
+</html>
